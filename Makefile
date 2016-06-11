@@ -6,7 +6,7 @@
 #    By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/27 11:23:48 by rbohmert          #+#    #+#              #
-#    Updated: 2016/06/03 05:18:55 by rbohmert         ###   ########.fr        #
+#    Updated: 2016/06/11 08:15:57 by rbohmert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,13 @@
 
 NAME = libft/libft.a
 
-SRC = fractol.c hook.c mandelbrot.c\
+SRC = fractol.c hook.c mandelbrot.c julia.c sword.c chameleon.c tricorn.c \
+	  burn.c lapin.c brain.c
 
 EXE = fractol
 
-GCC = gcc -lmlx -framework Appkit -framework OpenGl -o $(EXE) -Wall -Wextra -Werror
+GCC = gcc -lmlx -framework Appkit -framework OpenGl -o $(EXE) \
+	  -Wall -Wextra -Werror
 
 all: $(NAME)
 

@@ -6,28 +6,31 @@
 /*   By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 18:25:02 by rbohmert          #+#    #+#             */
-/*   Updated: 2016/06/03 05:17:36 by rbohmert         ###   ########.fr       */
+/*   Updated: 2016/06/11 08:08:57 by rbohmert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int			key_hook(int key, t_infos *i)
+int		key_hook(int key, t_infos *i)
 {
-	i->x = 0;
-	i->y = 0;
 	(key == 53) ? exit(2) : 0;
-	(key == 123) ? i->x1 += 0.3 : 0;
-	(key == 124) ? i->x1 -= 0.3 : 0;
-	(key == 125) ? i->y1 -= 0.3 : 0;
-	(key == 126) ? i->y1 += 0.3 : 0;
+	(key == 123) ? i->x1 += 5 / i->zoom : 0;
+	(key == 124) ? i->x1 -= 5 / i->zoom : 0;
+	(key == 125) ? i->y1 -= 5 / i->zoom : 0;
+	(key == 126) ? i->y1 += 5 / i->zoom : 0;
+	(key == 69) ? i->i_max++ : 0;
+	(key == 78) ? i->i_max-- : 0;
 	(key == 69) ? i->zoom *= 1.1 : 0;
 	(key == 78) ? i->zoom /= 1.1 : 0;
-	(key == 116) ? i->i_max += 20 : 0;
+	(key == 116) ? i->i_max += 5 : 0;
 	if (key == 121)
-		(i->i_max -= 20) == 0 ? i->i_max = 20 : 0;
-	(key == 49) ? init_mandelbrot(i) : 0;
-	parsing(i, i->name, 2);
+		(i->i_max -= 5) == 0 ? i->i_max = 5 : 0;
+	if (key == 256)
+		i->motion = (!i->motion) ? 1 : 0;
+	(key == 48) ? change(i) : 0;
+	(key == 49) ? i->first = 0 : 0;
+	parsing(i);
 	return (1);
 }
 
@@ -36,8 +39,6 @@ int		key_mouse(int key, int x, int y, t_infos *i)
 	double x_real;
 	double y_real;
 
-	i->x = 0;
-	i->y = 0;
 	if (y > 0)
 	{
 		x_real = (x / i->zoom) + i->x1;
@@ -47,14 +48,16 @@ int		key_mouse(int key, int x, int y, t_infos *i)
 			i->zoom *= 1.1;
 			i->x1 = x_real - (x / i->zoom);
 			i->y1 = y_real - (y / i->zoom);
-			parsing(i, i->name, 2);
+			i->i_max += 1;
+			parsing(i);
 		}
 		if (key == 5)
 		{
 			i->zoom /= 1.1;
 			i->x1 = x_real - (x / i->zoom);
 			i->y1 = y_real - (y / i->zoom);
-			parsing(i, i->name, 2);
+			i->i_max -= 1;
+			parsing(i);
 		}
 	}
 	return (0);
